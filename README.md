@@ -253,3 +253,6 @@ curl --location 'localhost:3000/api/v1/get-user-by-id' \
     }
 }
 ```
+
+## Stress Test (k6)
+located in `scripts/k6` with test results

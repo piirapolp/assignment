@@ -1,4 +1,4 @@
-# Assignment 
+# API Service 
 
 ## Tech Stack
 - Go 1.24
@@ -7,14 +7,16 @@
 - GORM
 - Viper (configuration)
 - sqlmock, gomock (testing/mocking)
+- k6 (stress test)
 
 ## Project Layout
-- src/controller/ — request/application orchestration
-- src/model/mysql/ — MySQL data repository (GORM)
-- src/interface/http/v1/ — HTTP handlers (Fiber), response models
-- src/global/ — shared types and constants (e.g., error type)
-- src/migration/ — additional DB migrations after dumped provided mock data
-- src/mocks/ — mock logger and model for unit test
+- src/controller/ - request/application orchestration
+- src/model/mysql/ - MySQL data repository (GORM)
+- src/interface/http/v1/ - HTTP handlers (Fiber), response models
+- src/global/ - shared types and constants (e.g., error type)
+- src/migration/ - additional DB migrations after dumped provided mock data
+- src/mocks/ - mock logger and model for unit test
+- scripts/ - stores sql script to use on DB initialization and k6 stress test files
 
 ## Configuration
 Configuration is read via Viper. A common setup is a YAML file stored in src/config consists of 2 files:
@@ -25,8 +27,8 @@ Configuration is read via Viper. A common setup is a YAML file stored in src/con
 ## Running the Service (Docker Compose)
 ### Prerequisite
 Please paste mock sql files in to directory `scripts/mysql` so it can be inserted into DB when executing docker compose.
-Mock sql file can be found at https://drive.google.com/drive/folders/1Htg0KFHUgU8jrdGwGEdIbSs99z7I_JPC filename `mock.zip`. 
-Please download and extreact it to `scripts/mysql` directory.
+Mock sql file can be found in https://drive.google.com/drive/folders/1Htg0KFHUgU8jrdGwGEdIbSs99z7I_JPC filename `mock.zip`. 
+Please download and extract it to `scripts/mysql` directory.
 
 ### Running the Service
 Build the project
@@ -230,7 +232,7 @@ curl --location 'localhost:3000/api/v1/get-user-saved-accounts' \
 
 ### Get User Info
 This API will return user information. The purpose of this API is to use for getting user's name to display 
-on enter pin page. So info given from this API will be only name and non-sensitive values hence it does not required bearer token
+on entering pin page. So info given from this API will be only name and non-sensitive values, hence it does not require bearer token
 since user hasn't logged in yet.
 #### Request
 ```sh

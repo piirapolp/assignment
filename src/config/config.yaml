@@ -1,0 +1,28 @@
+Log:
+  Level: debug
+  Color: true
+  Json: false
+
+Interface:
+  Enable: true
+  Http:
+    Port: 3000
+
+Database:
+  Enable: true
+  Username: mysql
+  Password: mysql
+  Host: 127.0.0.1
+  Port: 3306
+  DatabaseName: assignment
+  ConnectionTimeout: 30
+  MaxConnection: 1000
+  MinConnection: 20
+  LogLevel: debug
+
+DefaultPin: 123456
+
+System:
+  TimeZone: Asia/Bangkok
+
+Version: 1.0

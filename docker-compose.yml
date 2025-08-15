@@ -1,0 +1,48 @@
+name: assignment
+
+services:
+
+  assignment-service:
+    image: assignment-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      assignment-service-migrate:
+        condition: service_completed_successfully
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/config/config_docker_compose.yaml:/app/config/config.yaml
+    command: serve
+
+  assignment-service-migrate:
+    image: assignment-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./src/config/config_docker_compose.yaml:/app/config/config.yaml
+    command: migrate
+
+  mysql:
+    image: mysql:9.4
+    container_name: assignment-mysql
+    env_file:
+      - docker-compose.env
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./scripts/mysql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$MYSQL_ROOT_PASSWORD\" --silent && mysql -h localhost -u root -p\"$$MYSQL_ROOT_PASSWORD\" -D \"$$MYSQL_DATABASE\" -sse \"SELECT EXISTS(SELECT 1 FROM health WHERE k='mock_data' AND v='complete');\" | grep -q '^1$'"]
+      interval: 10s
+      timeout: 5s
+      retries: 120
+      start_period: 60s
+
+volumes:
+  mysql-data:

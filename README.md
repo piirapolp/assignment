@@ -29,7 +29,11 @@ Mock sql file can be found at https://drive.google.com/drive/folders/1Htg0KFHUgU
 Please download and extreact it to `scripts/mysql` directory.
 
 ### Running the Service
-Execute command (The first time run should take about 10 minutes since it will have to dump mock sql data into the DB)
+Build the project
+```sh
+docker compose build --no-cache
+```
+Start project (The first time run should take about 10 minutes since it will have to dump mock sql data into the DB)
 ```sh
 docker compose up -d --wait
 ```
